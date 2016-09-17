@@ -1,20 +1,17 @@
-import mongoose from 'mongoose';
-
-import bcrypt from 'bcrypt-nodejs'
+var mongoose = require('mongoose')
+var findOrCreate = require('mongoose-findorcreate');
 
 const userSchema = mongoose.Schema({
-
+	facebookId:String,
 	facebook: {
 		id: String,
 		token: String,
-		email: String,
 		name: String,
 		img: String
 	},
 	google: {
 		id: String,
 		token: String,
-		email: String,
 		name: String,
 		img: String
 	},
@@ -22,14 +19,12 @@ const userSchema = mongoose.Schema({
 	strava: {
 		id: String,
 		token: String,
-		email: String,
 		name: String,
 		img: String
 	},
 	fitbit: {
 		id: String,
 		token: String,
-		email: String,
 		name: String,
 		img: String
 	},
@@ -37,20 +32,16 @@ const userSchema = mongoose.Schema({
 	jawbone: {
 		id: String,
 		token: String,
-		email: String,
-		name: String,
-		img: String
-	},
-	garmin: {
-		id: String,
-		token: String,
-		email: String,
 		name: String,
 		img: String
 	},
 	preferredName: String,
-	preferredImage: String
+	preferredImage: String,
+	email: String,
+	name: String,
+	picture: String
 
 });
 
+userSchema.plugin(findOrCreate);
 module.exports = mongoose.model('User', userSchema);

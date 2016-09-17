@@ -1,5 +1,8 @@
+var initializeAuth = require('./auth');
+
 module.exports = function(app, passport) {
 
+	initializeAuth(app, passport);
 	//home
 	app.get('/', function(req, res) {
 		return res.render('index.ejs');
@@ -22,14 +25,19 @@ module.exports = function(app, passport) {
 	});
 
 	//profile
-	app.get('/profile', isLoggedIn, function(req, res, next) {
+	app.get('/profile', isLoggedIn, function(req, res) {
+		console.log('req user ' + req.user);
 		res.render('profile.ejs', {user: req.user});
-	})
+	});
 }
 
 function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated())
-		return next;
+	if (req.isAuthenticated()) {
+		console.log('user is authenticated; ' + req.user);
+		next();
+		return;
+	}
 
+	console.log();
 	res.redirect('/');
 }
