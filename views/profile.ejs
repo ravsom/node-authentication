@@ -14,8 +14,14 @@
 <body>
 <div class="container">
     <div class="jumbotron text-center">
-        <h1><span class="fa fa-lock"></span>Spinner Profile</h1>
+        <h1><span class="fa fa-unlock"></span>Spinner Profile</h1>
         <strong><%= user.name %></strong>
+    </div>
+
+    <div>
+        <% if(user && user.instructor){ %>
+        <a href="/record-ride">Record Ride</a>
+        <% } %>
     </div>
 </div>
 </body>

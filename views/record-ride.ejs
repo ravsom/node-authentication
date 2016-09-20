@@ -1,0 +1,115 @@
+<!doctype html>
+<head>
+    <title>Record Ride</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            padding-top: 30px;
+        }
+    </style>
+
+    <script>
+        function getUsersClicked() {
+            fetch('/get-users').then(function(response) {
+                return response.json();
+            }).then(function(users) {
+
+                //update data
+
+                console.log(JSON.stringify(users));
+                var div = document.createElement('div');
+                div.setAttribute('class', 'form-group');
+                var tableElement = document.createElement('table');
+                tableElement.setAttribute('class', 'table table-striped');
+
+                for (user of users) {
+                    console.log(user);
+                    if (user) {
+                        var tr = document.createElement('tr');
+                        var td = document.createElement('td');
+                        td.setAttribute('id', user._id);
+                        td.textContent = user.name;
+                        tr.appendChild(td);
+                        tableElement.appendChild(tr);
+                    }
+
+                }
+                div.appendChild(tableElement);
+                var UserListAnchor = document.getElementById('UserListAnchor');
+
+                UserListAnchor.parentNode.replaceChild(div, UserListAnchor);
+            }).catch(function(err) {
+                console.log('error is ' + err);
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1><span class="fa"></span>Record Ride</h1>
+    </div>
+    <div class="row">
+
+        <div class="col-xs-4 col-md-3"></div>
+        <div class="col-xs-10 col-md-6">
+            <form class="form-horizontal" action="/save-ride" method="post">
+
+                <div class="form-group">
+                    <label for="rideDate" class="control-label col-sm-3">Ride Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" id="rideDate"
+                               value=<%= moment().format('YYYY-MM-DD') %>>
+                    </div>
+                </div>
+                <p></p>
+                <div class="form-group">
+                    <label for="rideDate" class="control-label col-sm-3">Session</label>
+                    <!--TODO -->
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="rideDate" value="MORNING" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rideDate" class="control-label col-sm-3">Location</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="rideDate" value="Gold's Gym RMZ Infinity" readonly>
+                    </div>
+                </div>
+                <div class="form-group" id="attendee-list">
+                    <label for="rideDate" class="control-label col-sm-3">Attendees</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="rideDate" value="Gold's Gym RMZ Infinity" readonly>
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" class="btn btn-default" onClick='getUsersClicked()'>Select</button>
+                        <!-- Modal -->
+                    </div>
+                </div>
+
+                <div id="UserListAnchor"><!-- --></div>
+
+                <!-- Tracks -->
+                <div class="form-group" id="track-div">
+                    <label for="rideDate" class="control-label col-sm-3">Tracks</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="rideDate" value="Gold's Gym RMZ Infinity"
+                               readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
